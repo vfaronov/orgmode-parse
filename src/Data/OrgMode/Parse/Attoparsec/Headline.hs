@@ -27,6 +27,7 @@ where
 import           Control.Applicative
 import           Data.Attoparsec.Text
 import           Data.Attoparsec.Types                 as Attoparsec (Parser)
+import           Data.Char                             (isAlphaNum)
 import           Data.Maybe
 import           Data.Monoid
 import           Data.Text                             (Text)
@@ -186,7 +187,7 @@ parseStats = pct <|> frac
 parseTags :: Attoparsec.Parser Text [Tag]
 parseTags = tags' >>= test
   where
-    tags' = char ':' *> takeWhile (/= '\n')
+    tags' = char ':' *> takeWhile (\c -> isAlphaNum c || inClass "_@#%:" c)
     test t
        | Text.null t        = fail "no data after beginning ':'"
        | Text.last t /= ':' = fail $ Text.unpack $ "expected ':' at end of tag list but got: " `Text.snoc` Text.last t

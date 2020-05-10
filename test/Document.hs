@@ -68,17 +68,21 @@ parserSmallDocumentTests = testGroup "Attoparsec Small Document"
     parseSucceeded (Left _ ) = False
 
 sampleAText :: Text
-sampleAText = Text.concat [sampleParagraph,"* Test1", spaces 20,":Hi there:\n"
+sampleAText = Text.concat [sampleParagraph,"* Test1", spaces 20,":Hi_there:\n"
                           ,"*\n"
                           ," *\n"
                           ,"* Test2    :Two:Tags:\n"
+                          ,"* Test3:\n"
+                          ,"* Test4: is:\n"
                           ]
 sampleAParse :: Document
 sampleAParse = Document
                sampleParagraph
-               [emptyHeadline {title="Test1", tags=["Hi there"]}
+               [emptyHeadline {title="Test1", tags=["Hi_there"]}
                ,emptyHeadline {section=emptySection{sectionParagraph=" *\n"}}
                ,emptyHeadline {title="Test2", tags=["Two","Tags"]}
+               ,emptyHeadline {title="Test3:", tags=[]}
+               ,emptyHeadline {title="Test4: is:", tags=[]}
                ]
 
 samplePText :: Text
